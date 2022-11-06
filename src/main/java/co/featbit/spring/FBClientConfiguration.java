@@ -6,7 +6,6 @@ import co.featbit.server.Factory;
 import co.featbit.server.Utils;
 import co.featbit.server.exterior.FBClient;
 import co.featbit.server.exterior.HttpConfigurationBuilder;
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,9 +20,10 @@ public class FBClientConfiguration {
 
     @Bean
     public FBClient client(FBClientConfigProperties properties) {
-        checkArgument(Base64.isBase64(properties.getEnvSecret()), "envSecret is invalid");
-        checkArgument(Utils.isUrl(properties.getStreamingURL()), "streaming uri is invalid");
-        checkArgument(Utils.isUrl(properties.getEventURL()), "event uri is invalid");
+        if (!properties.isOffline()) {
+            checkArgument(Utils.isValidEnvSecret(properties.getEnvSecret()), "envSecret is invalid");
+            checkArgument(Utils.isUrl(properties.getStreamingUrl()) || Utils.isUrl(properties.getEventUrl()), "streaming or event url is invalid");
+        }
         HttpConfigurationBuilder httpConfigFactory = Factory.httpConfigFactory();
         if (properties.getProxyHost() != null && properties.getProxyPort() > 0) {
             httpConfigFactory.httpProxy(properties.getProxyHost(), properties.getProxyPort());
@@ -35,8 +35,8 @@ public class FBClientConfiguration {
         FBConfig.Builder builder = new FBConfig.Builder()
                 .offline(properties.isOffline())
                 .startWaitTime(Duration.ofSeconds(properties.getStartWait()))
-                .streamingURL(properties.getStreamingURL())
-                .eventURL(properties.getEventURL())
+                .streamingURL(properties.getStreamingUrl())
+                .eventURL(properties.getEventUrl())
                 .httpConfigFactory(httpConfigFactory);
 
         return new FBClientImp(properties.getEnvSecret(), builder.build());

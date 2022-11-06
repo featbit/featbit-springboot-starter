@@ -16,9 +16,9 @@ public class FBClientConfigProperties {
     @Min(0)
     private int startWait = 15;
     @NotBlank
-    private String streamingURL;
+    private String streamingUrl;
     @NotBlank
-    private String eventURL;
+    private String eventUrl;
 
     private String proxyHost;
 
