@@ -45,7 +45,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <springboot-version>2.7.5</springboot-version>
         <okhttp-version>4.9.3</okhttp-version>
-        <featbit-version>1.0</featbit-version>
+        <featbit-version>1.0.2</featbit-version>
     </properties>
 
     <dependencyManagement>
@@ -186,6 +186,12 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
             </plugin>
 
         </plugins>
