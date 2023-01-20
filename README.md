@@ -10,7 +10,7 @@ This project is used to autoconfigure FeatBit JAVA SDK in the spring-boot enviro
 <dependency>
     <groupId>co.featbit</groupId>
     <artifactId>featbit-springboot-starter</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 
 ```
