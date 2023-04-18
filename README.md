@@ -13,14 +13,14 @@ This project is used to autoconfigure [FeatBit JAVA SDK](https://github.com/feat
 <dependency>
     <groupId>co.featbit</groupId>
     <artifactId>featbit-springboot-starter</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 </dependency>
 
 ```
 - Install the SDK using Gradle
 
 ```
-implementation 'co.featbit:featbit-springboot-starter:1.1.0'
+implementation 'co.featbit:featbit-springboot-starter:1.1.1'
 ```
 
 ## Examples
