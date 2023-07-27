@@ -1,4 +1,4 @@
-# Featbit SpringBoot Starter
+# FeatBit SpringBoot Starter
 
 ## Introduction
 
