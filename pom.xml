@@ -6,7 +6,7 @@
 
     <groupId>co.featbit</groupId>
     <artifactId>featbit-springboot-starter</artifactId>
-    <version>1.1.1</version>
+    <version>1.2.0</version>
 
     <name>featbit/featbit-springboot-starter</name>
 
@@ -43,9 +43,9 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <springboot-version>2.7.10</springboot-version>
+        <springboot-version>3.0.0</springboot-version>
         <okhttp-version>4.9.3</okhttp-version>
-        <featbit-version>1.1.1</featbit-version>
+        <featbit-version>[1.4.0,2.0.0)</featbit-version>
     </properties>
 
     <dependencyManagement>
@@ -157,6 +157,11 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <additionalOptions>
+                        <additionalOption>-Xdoclint:none</additionalOption>
+                    </additionalOptions>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -186,6 +191,12 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <gpgArguments>
+                        <arg>--pinentry-mode</arg>
+                        <arg>loopback</arg>
+                    </gpgArguments>
+                </configuration>
             </plugin>
 
             <plugin>
