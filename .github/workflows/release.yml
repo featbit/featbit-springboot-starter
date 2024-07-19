@@ -1,0 +1,66 @@
+name: Java CI with Maven
+# Run workflow on commits to the `master` branch
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-release:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # 下载代码
+      - uses: actions/checkout@v4
+      - name: Set up Maven Central Repository
+        # 安装 JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - name: Maven Settings XML
+        uses: whelk-io/maven-settings-xml-action@v20
+        with:
+          repositories: ''
+          servers: ''
+      - name: Build with Maven
+        run: mvn -B -DskipTests package --file pom.xml
+      - run: mkdir staging && cp target/*.jar staging
+      - name: Set Release version env variable
+        run: |
+          echo "RELEASE_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+      - name: Build and Test
+        run: |
+          echo "done!"
+      - name: Publish Tag and Release
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "v${{ env.RELEASE_VERSION }}"
+          prerelease: false
+          title: "Release v${{ env.RELEASE_VERSION }}"
+          files: |
+            staging/*.jar
+
+  publish:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Publish to the Maven Central Repository
+        uses: samuelmeuli/action-maven-publish@v1
+        with:
+          maven_args: '-DskipTests'
+          gpg_private_key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg_passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          nexus_username: ${{ secrets.OSSRH_USERNAME }}
+          nexus_password: ${{ secrets.OSSRH_TOKEN }}
