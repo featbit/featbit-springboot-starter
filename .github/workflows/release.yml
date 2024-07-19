@@ -17,7 +17,7 @@ jobs:
         # 安装 JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '17'
           distribution: 'temurin'
           cache: maven
       - name: Maven Settings XML
@@ -52,7 +52,7 @@ jobs:
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
 
